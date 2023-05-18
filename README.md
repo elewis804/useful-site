@@ -36,3 +36,21 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+
+Ideas:
+- A website that's just generally useful for me idk
+	- List of songs I want to learn/am learning on guitar
+		- Notes on how to play them
+		- Can tab them out myself
+		- Links to ultimate guitar
+		- Can upload a backing track for the song and play it through the website
+		- Links/files of reference videos
+	- List of things I wanna practice on guitar
+		- Notes on how to practice
+	- Wishlist
+		- Links, images, descriptions, etc.
+	- General notes place
+		- Can be typed out or uploaded as a file
+	- Todo list
+	- Other stuff maybe idk
