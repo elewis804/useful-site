@@ -5,7 +5,7 @@
 <Navbar></Navbar>
 <div class="container-sm">
     <ul class="list-group list-group-horizontal-md mt-5">
-      <a href="#!" class="list-group-item list-group-item-action text-center">
+      <a href="/wishlist/0" class="list-group-item list-group-item-action text-center">
         <h3  class="text-center">New Guitar</h3>
           <p class=" text-center">A cool new guitar that I would like to own</p>        
         <a href="https://www.fender.com/en-US/player-plus-telecaster/0147332347.html">https://www.fender.com/en-US/player-plus-telecaster/0147332347.html</a>
