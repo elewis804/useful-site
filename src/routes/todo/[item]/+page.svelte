@@ -9,7 +9,7 @@
 	class="btn position-absolute bottom-0 end-0 mx-5 my-5 px-0 py-1"
 	style="background-color:transparent"
 	data-bs-toggle="modal"
-	data-bs-target="#addItemModal"
+	data-bs-target="#editItemModal"
 >
 	<i class="bi-pencil-fill" style="font-size: 3rem; color: #ff4545" />
 </button>
@@ -37,7 +37,7 @@
 
 <div
 	class="modal fade"
-	id="addItemModal"
+	id="editItemModal"
 	tabindex="-1"
 	aria-labelledby="Add New Item"
 	aria-hidden="true"
