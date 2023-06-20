@@ -1,47 +1,75 @@
-<script>
-	import Navbar from "$lib/Navbar.svelte";
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import Navbar from '$lib/Navbar.svelte';
 	import 'bootstrap-icons/font/bootstrap-icons.css';
+	export let data;
+
+	let list = data.items;
+
+	async function deleteItem(item_id) {
+		console.log(item_id);
+		const response = await fetch('/api/tabs', {
+			method: 'DELETE',
+			body: JSON.stringify(item_id),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+
+		const result = await response.json();
+		list = result;
+	}
 </script>
 <Navbar></Navbar>
 <div class="container-sm">
-    <ul class="list-group list-group-horizontal-md mt-5">
-      <a href="/guitar/tabs/0" class="list-group-item list-group-item-action text-center">
-        <h3  class="text-center">Mimi's Delivery Service</h3>
-		<a href="https://youtu.be/JwcBpxg5O6Y">https://youtu.be/JwcBpxg5O6Y</a>
-		<div></div>
-		<a href="https://tabs.ultimate-guitar.com/tab/good-kid/mimis-delivery-service-official-4778588">https://tabs.ultimate-guitar.com/tab/good-kid/mimis-delivery-service-official-4778588</a>
-      </a>
-    </ul>
-    <button type="button" class="btn position-absolute bottom-0 end-0 mx-5 my-5 px-0 py-1" style="background-color:transparent" data-bs-toggle="modal" data-bs-target="#addItemModal">
-      <i class="bi-patch-plus-fill" style="font-size: 3rem; color: #ff4545"></i>
-    </button>
+	<form method="POST" action="/guitar/tabs?/addItem">
+		<row>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Song Name</label>
+				<input class="form-control" id="nameInput" placeholder="Name" name="name" />
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Song Link</label>
+				<input class="form-control" id="songInput" name="song"/>
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Song Guide</label>
+				<input class="form-control" id="guideInput" name="guide"/>
+			</div>
+		</row>
+		<button
+			type="submit"
+			class="position-absolute translate-middle start-50 btn btn-secondary mt-2"
+			style="background-color: #ff4545;">Add</button
+		>
+	</form>
+	<ul class="list-group list-group-vertical-md mt-5">
+		{#each list as item}
+			<div class="list-group-item list-group-item-action text-center mb-2">
+				<row>
+					<button
+						type="button"
+						class="btn position-absolute start-0"
+						style="background-color:transparent"
+						on:click={() => deleteItem(item.tab_id)}
+					>
+						<i class="bi-x" style="font-size: 3rem; color: #ff4545" />
+					</button>
+					<a
+						href="/guitar/tabs/{item.tab_id}"
+						class="btn"
+					>
+						<h4>{item.tab_name}</h4>
+						{#if item.tab_song != null}
+							<a href={item.tab_song}>{item.tab_song}</a>
+						{/if}
+						<div></div>
+						{#if item.tab_guide != null}
+							<a href={item.tab_guide}>{item.tab_guide}</a>
+						{/if}
+					</a>
+				</row>
+			</div>
+		{/each}
+	</ul>
 </div>
-
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="Add New Item" aria-hidden="true">
-	<div class="modal-dialog">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h1 class="modal-title fs-5" id="exampleModalLabel">Add a New Item</h1>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		</div>
-		<div class="modal-body">
-		  <div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">Name</label>
-			<input class="form-control" id="nameInput" placeholder="Name">
-		  </div>
-		  <div class="mb-3">
-			<label for="exampleFormControlTextarea1" class="form-label">Song</label>
-			<input class="form-control" id="linkInput" placeholder="">
-		  </div>
-		  <div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">Tabs/Guide</label>
-			<input class="form-control" id="guideInput" placeholder="">
-		  </div>
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-		  <button type="button" class="btn btn-primary" style="background-color: #ff4545;">Add</button>
-		</div>
-	  </div>
-	</div>
-  </div>

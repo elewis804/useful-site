@@ -1,37 +1,67 @@
-<script>
-	import Navbar from "$lib/Navbar.svelte";
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import Navbar from '$lib/Navbar.svelte';
 	import 'bootstrap-icons/font/bootstrap-icons.css';
-</script>
-<Navbar></Navbar>
-<div class="container-sm">
-    <ul class="list-group list-group-horizontal-md mt-5">
-      <a href="/notes/0" class="list-group-item list-group-item-action text-center">
-        <h3  class="text-center">Math Notes</h3>
-		<p>5/22/2023</p>
-      </a>
-    </ul>
-    <button type="button" class="btn position-absolute bottom-0 end-0 mx-5 my-5 px-0 py-1" style="background-color:transparent" data-bs-toggle="modal" data-bs-target="#addItemModal">
-      <i class="bi-patch-plus-fill" style="font-size: 3rem; color: #ff4545"></i>
-    </button>
-</div>
+	export let data;
 
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="Add New Item" aria-hidden="true">
-	<div class="modal-dialog">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h1 class="modal-title fs-5" id="exampleModalLabel">Add a New Item</h1>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		</div>
-		<div class="modal-body">
-		  <div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">Name</label>
-			<input class="form-control" id="nameInput" placeholder="Name">
-		  </div>
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-		  <button type="button" class="btn btn-primary" style="background-color: #ff4545;">Add</button>
-		</div>
-	  </div>
-	</div>
-  </div>
+	let list = data.items;
+
+	async function deleteItem(item_id) {
+		console.log(item_id);
+		const response = await fetch('/api/notes', {
+			method: 'DELETE',
+			body: JSON.stringify(item_id),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+
+		const result = await response.json();
+		list = result;
+	}
+</script>
+
+<Navbar />
+
+<div class="container-sm">
+	<form method="POST" action="/notes?/addItem">
+		<row>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Item Name</label>
+				<input class="form-control" id="nameInput" placeholder="Name" name="name" />
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Item Due Date</label>
+				<input class="form-control" id="dateSelector" name="date" type="date"/>
+			</div>
+		</row>
+		<button
+			type="submit"
+			class="position-absolute translate-middle start-50 btn btn-secondary mt-2"
+			style="background-color: #ff4545;">Add</button
+		>
+	</form>
+	<ul class="list-group list-group-vertical-md mt-5">
+		{#each list as item}
+			<div class="list-group-item list-group-item-action text-center mb-2">
+				<row>
+					<button
+						type="button"
+						class="btn position-absolute start-0"
+						style="background-color:transparent"
+						on:click={() => deleteItem(item.notes_id)}
+					>
+						<i class="bi-x" style="font-size: 3rem; color: #ff4545" />
+					</button>
+					<a
+						href="/notes/{item.notes_id}"
+						class="btn"
+					>
+						<h4>{item.notes_name}</h4>
+						<p>{item.notes_date}</p>
+					</a>
+				</row>
+			</div>
+		{/each}
+	</ul>
+</div>

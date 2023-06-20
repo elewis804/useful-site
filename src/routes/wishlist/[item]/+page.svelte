@@ -12,10 +12,10 @@
 			style="background-color: #ff4545;"
 			href="/wishlist">Back</a
 		>
-		<button
+		<!-- <button
 			class="col btn btn-secondary"
 			style="background-color: #ff4545;">Delete</button
-		>
+		> -->
 	</row>
 
 	<ul class="list-group px-5 width-500 pt-4">
